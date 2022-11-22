@@ -2,8 +2,10 @@ nav{
   overflow: hidden;
   background-color: #8A1538;
   padding: 20px 10px;
-}
+  margin: 0;
+  border: 0;
 
+}
 
 /* Style the header links */
 a {
@@ -23,6 +25,8 @@ a.logo {
 
 h2{
   text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .main-footer{
@@ -32,6 +36,7 @@ h2{
 }
 
 .img-align{
+  align-items: center;
   width: 80%;
   margin: auto;
   padding-bottom: 1%;
@@ -39,5 +44,26 @@ h2{
   /* float: left;
   position: absolute;
   left: 30%; */
-  
+}
+
+.container{
+  width: 80%;  
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+.align-div1{
+  width: 80%; 
+  margin-left: auto;
+  margin-right: auto; 
+  position: relative;
+  left: 5%;
+}
+
+.align-div2{
+  width: 80%; 
+  margin-left: auto;
+  margin-right: auto; 
+  position: relative;
+  left: 20%;
 }

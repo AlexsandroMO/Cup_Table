@@ -4,44 +4,25 @@
 {% block content %}
 
 <div>
-    <div>
-        <h1>Games</h1>
-        <table class="tabler">
-            <tbody>
-              {% for read in tabela_game %}
-              <tr>
-                <td>{{read.0}}</td>
-                <td><img alt="bandeira do {{tabela.1.1}}" height="30" src="{{tabela.1.0}}" width="45"></td>
-                <td>{read.1}}</td>
-                <td>{read.2}}</td>
-                <td>{read.3}}</td>
-                <td><td><img alt="bandeira do {{tabela.2.1}}" height="30" src="{{tabela.2.0}}" width="45"></td>
-                <td>{read.4}}</td>
-                <td>{read.5}}</td>
-              </tr>
-              {% endfor %}
-            </tbody></table>
-    </div>
-</div>
-
-
-<div>
   <div>
-      <h1>Match Results</h1>
+      <h2>Match Results</h2>
+      <div class="align-div2">
       <table class="tabler">
           <tbody>
-            {% for tb in tabela %}
+            {% for read in read_table %}
             <tr>
-              <td>{{tb.1}}</td>
-              <td><img alt="bandeira do {{tb.1}}" height="30" src="{{tb.0}}" width="45"></td>
-              <td>1</td>
+              <td>{{read.0}}</td>
+              <td><img alt="bandeira do {{read.0}}" height="30" src="{{read.1}}" width="45"></td>
+              <td>{{read.2}}</td>
               <td>x</td>
-              <td>0</td>
-              <td><td><img alt="bandeira do {{tb.1}}" height="30" src="{{tb.0}}" width="45"></td>
-              <td>{{tb.1}}</td>
+              <td>{{read.3}}</td>
+              <td><td><img alt="bandeira do {{read.5}}" height="30" src="{{read.4}}" width="45"></td>
+              <td>{{read.5}}</td>
             </tr>
             {% endfor %}
-          </tbody></table>
+          </tbody>
+        </table>
+      </div>
   </div>
 </div>
 

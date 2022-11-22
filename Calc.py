@@ -3,26 +3,10 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import re
 import numpy as np
-
-#-- Ler times
-def read_teams():
-  df = pd.read_csv('media/TEAMS.csv')
-  return df
+import openpyxl
 
 #-- Ler status de jogos
 def read_table_status():
-  df = pd.read_csv('media/STATUS.csv')
-  return df
-
-#-- Ler status tabela de jogos
-def read_table_games():
-  df = pd.read_csv('media/TABLE_GAME.csv')
-  print(df)
-  
-  return df
-
-#-- Ler status de jogos
-def rotine_status():
   url = 'https://www.api-futebol.com.br/campeonato/copa-do-mundo/Catar%202022'
   header = {'user-agent':'Mozilla/5.0'}
   r = requests.get(url, headers = header)
@@ -50,85 +34,89 @@ def rotine_status():
         data_read[11] = recent_list[cont_recent]
         status_list.append(data_read[:-3])
       cont_recent += 1
-  
-  df = pd.DataFrame(data=status_list, columns=['POS',
-  'Time',
-  'PTS',
-  'J',
-  'V',
-  'E',
-  'D',
-  'GP',
-  'GC',
-  'SG',
-  'percento',
-  'Recentes',
-  'xx'])
 
-  df.drop(columns=['xx'], inplace=True)
+  return status_list
 
-  df.to_csv('media/STATUS.csv')
-
-
+#-- Ler partidas de jogos
 def list_games():
-  url = 'https://www.api-futebol.com.br/campeonato/copa-do-mundo/Catar%202022'
+  url = 'https://www.terra.com.br/esportes/futebol/copa-2022/tabela/'
   header = {'user-agent':'Mozilla/5.0'}
   r = requests.get(url, headers = header)
   r.text
   soup = BeautifulSoup(r.text, 'html.parser')
- 
-  result = soup.find_all('div',{'class':'small text-center'})
-  team_right = soup.find_all('div',{'class':'text-right'})
-  team_left = soup.find_all('div',{'class':'text-left'})
-  time_game = soup.find_all('small',{'class':'smaller'})
 
-  result_list = []
-  for a in result:
-    result_list.append(a.text)
+  result = soup.find_all('div',{'class':'match-info'})
+  team_all = soup.find_all('span',{'class':'acronym'})
+  flags = soup.find_all('img',{'class':'sports-shield'})
 
-  right_list = []
-  for a in team_right:
-    right_list.append(a.text)
-
-  del(right_list[0])
-  right_list
-
-  left_list = []
-  for a in team_left:
-    left_list.append(a.text)
-
-  time_list = []
-  for a in time_game:
-    time_list.append(a.text)
-
-  array = np.array(np.arange(len(time_list)))
+  array = np.array(np.arange(len(team_all)))
   x = np.where(array%2 == 0)
   y = np.where(array%2 == 1)
-  cont_time_x, cont_time_y = [],[]
+  team_x, team_y = [],[]
   for a in x:
     for b in a:
-      cont_time_x.append(b)
+      team_x.append(b)
 
   for a in y:
     for b in a:
-      cont_time_y.append(b)
+      team_y.append(b)
 
-  time_x = []
-  for a in cont_time_x:
-    time_x.append(time_list[a])
+  team_a = []
+  for read in team_x:
+    team_a.append(team_all[read].text)
 
-  time_y = []
-  for a in cont_time_y:
-    time_y.append(time_list[a])
+  team_b = []
+  for read in team_y:
+    team_b.append(team_all[read].text)
 
-  games_list = []
-  for result, left, right, t_x, t_y in zip(result_list, left_list, right_list, time_x,time_y):
-    games_list.append([right, result, left, t_x, t_y])
+  array = np.array(np.arange(len(flags)))
+  x = np.where(array%2 == 0)
+  y = np.where(array%2 == 1)
+  flags_x, flags_y = [],[]
+  for a in x:
+    for b in a:
+      flags_x.append(b)
 
-  df = pd.DataFrame(data=games_list, columns=['TIME_L', 'RESULT', 'TIME_F','DATA','LOCAL'])
-  
-  df.to_csv('media/TABLE_GAME.csv')
+  for a in y:
+    for b in a:
+      flags_y.append(b)
 
-#rotine_status()
-#list_games()
+  flag_a = []
+  for read in flags_x:
+    flag_a.append(flags[read]['src'])
 
+  flag_b = []
+  for read in flags_y:
+    flag_b.append(flags[read]['src'])
+
+  result_list = []
+  increment = 1
+  cont_team = 0
+  for cont in range(0, len(result)):
+    if cont < len(result)/3:
+      if result[cont + increment].contents[0].text != '':
+        result_list.append([team_a[cont_team],
+                            flag_a[cont_team],
+                            result[cont + increment].contents[0].text,
+                            result[cont + increment].contents[2].text,
+                            flag_b[cont_team],
+                            team_b[cont_team],
+                            result[cont + increment].find('div',{'class':'details'}).text[:-14]])
+      else:
+        result_list.append([team_a[cont_team],
+                            flag_a[cont_team],
+                            result[cont + increment].contents[0].text,
+                            result[cont + increment].contents[2].text,
+                            flag_b[cont_team],
+                            team_b[cont_team],
+                          result[cont + increment].find('div',{'class':'details'}).text])
+        
+      increment += 2
+      cont_team += 1
+
+  for a in result_list:
+    a[4] = a[4].replace('h00','h00 ')
+
+  result_list
+
+  return result_list
