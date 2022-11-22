@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div>
+    <div>
+        <h1>Game Tables</h1>
+        <table class="tabler">
+            <thead>
+              <tr>
+                <td>POS</td>
+                <td>Time</td>
+                <td>PTS</td>
+                <td>J</td>
+                <td>V</td>
+                <td>E</td>
+                <td>D</td>
+                <td>GP</td>
+                <td>GC</td>
+                <td>SG</td>
+                <td>%</td>
+                <td>Recentes</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for read in tabela %}
+              <tr>
+                <td>{{read.0}}</td>
+                <td>{{read.1}}</td>
+                <td>{{read.2}}</td>
+                <td>{{read.3}}</td>
+                <td>{{read.4}}</td>
+                <td>{{read.5}}</td>
+                <td>{{read.6}}</td>
+                <td>{{read.7}}</td>
+                <td>{{read.8}}</td>
+                <td>{{read.9}}</td>
+                <td>{{read.10}}</td>
+                <td>{{read.11}}</td>
+              </tr>
+              {% endfor %}
+            </tbody></table>
+    </div>
+</div>
+
+{% endblock %}

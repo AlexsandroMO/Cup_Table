@@ -1,0 +1,29 @@
+
+.tabler, .tabler th, .tabler td {
+    border: none;
+    text-align: center;
+    padding: 8px;
+}
+.tabler {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
