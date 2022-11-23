@@ -3,25 +3,22 @@
 
 {% block content %}
 
-<div>
-  <div>
       <h2>Match Results</h2>
       <table class="tabler">
           <tbody>
             {% for read in read_table %}
             <tr>
               <td>{{read.0}}</td>
-              <td><img alt="bandeira do {{read.0}}" height="30" src="{{read.1}}" width="45"></td>
+              <td><img alt="bandeira do {{read.0}}" height="60" src="{{read.1}}" width="60"></td>
               <td>{{read.2}}</td>
-              <td>x</td>
+              <td class="ajust-td"> x </td>
               <td>{{read.3}}</td>
-              <td><td><img alt="bandeira do {{read.5}}" height="30" src="{{read.4}}" width="45"></td>
+              <td><td><img alt="bandeira do {{read.5}}" height="60" src="{{read.4}}" width="60"></td>
               <td>{{read.5}}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-  </div>
-</div>
+
 
 {% endblock %}
